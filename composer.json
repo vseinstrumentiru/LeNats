@@ -10,6 +10,24 @@
       "email": "shtricul@gmail.comm"
     }
   ],
+  "config": {
+    "preferred-install": {
+      "*": "dist"
+    },
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "LeNats\\": "src/",
+      "GPBMetadata\\": "gen/GPBMetadata/",
+      "NatsStreamingProtocol\\": "gen/NatsStreamingProtocol/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "LeNats\\Tests\\": "tests/"
+    }
+  },
   "require": {
     "php": "^7.1.3",
     "ext-ctype": "*",
@@ -31,29 +49,12 @@
     "symfony/framework-bundle": "^3.4|^4.2",
     "symfony/yaml": "^3.4|^4.2"
   },
-  "config": {
-    "preferred-install": {
-      "*": "dist"
-    },
-    "sort-packages": true
-  },
-  "autoload": {
-    "psr-4": {
-      "LeNats\\": "src/",
-      "GPBMetadata\\": "gen/GPBMetadata/",
-      "NatsStreamingProtocol\\": "gen/NatsStreamingProtocol/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "LeNats\\Tests\\": "tests/"
-    }
-  },
   "require-dev": {
     "phpstan/phpstan": "^0.11.2",
     "phpstan/phpstan-symfony": "^0.11.1",
     "symfony/phpunit-bridge": "^3.4|^4.2",
-    "symplify/easy-coding-standard": "^5.4"
+    "symplify/easy-coding-standard": "^5.4",
+    "phpunit/phpunit": "^8.0"
   },
   "scripts": {
     "ecs": "vendor/bin/ecs check ./src --fix",
