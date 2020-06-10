@@ -1,13 +1,11 @@
-composer.lock
+# Vendor
+vendor
 
-###> symfony/framework-bundle ###
-/vendor/
-###< symfony/framework-bundle ###
-
-###> symfony/phpunit-bridge ###
+# PHPUnit
 .phpunit
-/phpunit.xml
-###< symfony/phpunit-bridge ###
+.phpunit.result.cache
+phpunit.xml
 
+# IDE
 .idea
 .vscode
