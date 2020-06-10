@@ -1,13 +1,20 @@
 # LeNats
+
+[![build](https://github.com/vseinstrumentiru/LeNats/workflows/build/badge.svg)](https://github.com/vseinstrumentiru/LeNats/actions)
+[![coverage](https://codecov.io/gh/vseinstrumentiru/LeNats/branch/master/graph/badge.svg)](https://codecov.io/gh/vseinstrumentiru/LeNats)
+
 Event-driven NATS streaming Symfony 4 bundle with Cloud Event standard 
 
 ## Install
+
 ```
 composer require vseinstrumentiru/lenats
 ```
 
 ## Configuration
+
 In `config/packages/le_nats.yaml`:
+
 ```yaml
 le_nats:
   connection:
@@ -34,7 +41,9 @@ le_nats:
 ```
 
 ## Workflow
+
 ### Publishing
+
 ```php
 <?php
 $publisher = $container->get(\LeNats\Subscription\Publisher::class);
@@ -52,8 +61,10 @@ $publisher->publish($event);
 ```
 
 ### Subscribing
+
 ```
 bin/console nats:subscribe some.event.type -t 10
 ```
-Make sure the Listener of your Event Type exists
+
+Make sure the Listener of your Event Type exists.
 

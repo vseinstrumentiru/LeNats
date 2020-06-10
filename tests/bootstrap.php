@@ -7,7 +7,7 @@ $loader = require dirname(__DIR__) . '/vendor/autoload.php';
 $kernelVersion = Symfony\Component\HttpKernel\Kernel::MAJOR_VERSION;
 
 if (!in_array($kernelVersion, [3, 4], true)) {
-    throw new Exception('Not supported Symfony HttpKernel version. Supports only v3.*, v4.* versions');
+    throw new \RuntimeException('Not supported Symfony HttpKernel version. Supports only v3.*, v4.* versions');
 }
 
 $_ENV['KERNEL_DIR'] = dirname(__DIR__) . "/tests/Mocks";
