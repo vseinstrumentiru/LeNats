@@ -159,17 +159,17 @@ class CloudEvent extends Event
     }
 
     /**
-     * @return DateTimeInterface
+     * @return \DateTimeInterface|null
      */
-    public function getTime(): DateTimeInterface
+    public function getTime(): ?DateTimeInterface
     {
         return $this->time;
     }
 
     /**
-     * @param DateTimeInterface $time
+     * @param \DateTimeInterface|null $time
      */
-    public function setTime(DateTimeInterface $time): void
+    public function setTime(?DateTimeInterface $time): void
     {
         $this->time = $time;
     }
