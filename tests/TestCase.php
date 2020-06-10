@@ -18,6 +18,9 @@ abstract class TestCase extends KernelTestCase
      */
     protected $resource;
 
+    /**
+     * @inheritDoc
+     */
     public function setUp(): void
     {
         static::bootKernel();
@@ -27,7 +30,10 @@ abstract class TestCase extends KernelTestCase
         $this->resource = fopen('php://temp', 'w+');
     }
 
-    protected function getContainer()
+    /**
+     * @return \Symfony\Component\DependencyInjection\ContainerInterface
+     */
+    protected function getContainer(): \Symfony\Component\DependencyInjection\ContainerInterface
     {
         if (static::$container !== null) {
             return static::$container;
@@ -36,6 +42,9 @@ abstract class TestCase extends KernelTestCase
         return static::$kernel->getContainer();
     }
 
+    /**
+     * @return Stream
+     */
     protected function getStream(): Stream
     {
         $stream = new ReactConnection($this->resource, $this->loop);
@@ -43,6 +52,10 @@ abstract class TestCase extends KernelTestCase
         return new Stream($stream, $this->loop);
     }
 
+    /**
+     * @param string $event
+     * @param callable $emitter
+     */
     protected function assertEventHandled(string $event, callable $emitter): void
     {
         $handled = false;
