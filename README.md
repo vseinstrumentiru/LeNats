@@ -1,5 +1,3 @@
-# DEPRECATED
-
 # LeNats
 Event-driven NATS streaming Symfony 4 bundle with Cloud Event standard 
 
