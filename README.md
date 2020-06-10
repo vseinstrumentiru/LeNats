@@ -5,7 +5,7 @@ Event-driven NATS streaming Symfony 4 bundle with Cloud Event standard
 
 ## Install
 ```
-composer require lebrains/lentas
+composer require vseinstrumentiru/lenats
 ```
 
 ## Configuration
