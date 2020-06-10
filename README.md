@@ -3,7 +3,7 @@
 [![build](https://github.com/vseinstrumentiru/LeNats/workflows/build/badge.svg)](https://github.com/vseinstrumentiru/LeNats/actions)
 [![coverage](https://codecov.io/gh/vseinstrumentiru/LeNats/branch/master/graph/badge.svg)](https://codecov.io/gh/vseinstrumentiru/LeNats)
 
-Event-driven NATS streaming Symfony 4 bundle with Cloud Event standard 
+Event-driven NATS streaming Symfony 3/4 bundle with Cloud Event standard.
 
 ## Install
 
