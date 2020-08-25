@@ -108,7 +108,7 @@ abstract class SubscriptionMessageStreamer extends MessageStreamer implements Ev
         $this->dispatcher->addListener($sid, $listener, $priority);
     }
 
-    abstract protected function getPublishSubject(Subscription $subscription): string;
+    abstract protected function getPublishSubject(Subscription $subscription): ?string;
 
     abstract protected function getRequest(Subscription $subscription): Message;
 
