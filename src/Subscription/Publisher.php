@@ -48,7 +48,7 @@ class Publisher extends MessageStreamer
     {
         $subject = $subject ?? (empty($this->suffixes) ? $event->getType() : str_replace($this->suffixes, '', $event->getType()));
 
-        $guid = $this->generator->generateString(16);
+        $guid = uniqid('guid');
 
         $data = $this->serializer->serialize($event, 'json');
         $data = str_replace([
