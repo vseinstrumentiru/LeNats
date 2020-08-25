@@ -94,7 +94,7 @@ class Subscriber extends SubscriptionMessageStreamer
         $this->reset($subscription->getSid());
     }
 
-    protected function getPublishSubject(Subscription $subscription): string
+    protected function getPublishSubject(Subscription $subscription): ?string
     {
         return $this->connection->getConfig()->getSubRequests();
     }

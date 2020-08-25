@@ -128,8 +128,8 @@ class ReactEventSubscriber implements EventSubscriberInterface, EventDispatcherA
 
     private function verboseLog(string $message): void
     {
-        if ($this->logger && $this->connection->getConfig()->isDebug()) {
-            $this->logger->info($message);
+        if ($this->logger) {
+            $this->logger->debug($message);
         }
     }
 }

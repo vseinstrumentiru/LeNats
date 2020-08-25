@@ -62,6 +62,9 @@ class SubscriptionListener implements EventDispatcherAwareInterface
         try {
             $message->mergeFromString($event->payload);
         } catch (Throwable $e) {
+            $this->logger->error($e->getMessage(), [
+                'exception' => $e
+            ]);
             throw new SubscriptionException($e->getMessage());
         }
 
