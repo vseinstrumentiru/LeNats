@@ -2,76 +2,46 @@
 
 namespace LeNats\Services;
 
-use LeNats\Support\RandomGenerator;
 use NatsStreamingProtocol\ConnectResponse;
-use RandomLib\Factory;
 
 class Configuration
 {
     /** @var string */
     private $lang = 'php';
-
     /** @var string */
     private $version = PHP_VERSION;
-
-    /** @var string */
+    /** @var string|null */
     private $dsn;
-
     /** @var bool */
     private $verbose = false;
-
     /** @var bool */
     private $pedantic = false;
-
     /** @var int */
     private $protocol = 1;
-
     /** @var string|null */
     private $user;
-
     /** @var string|null */
     private $pass;
-
     /** @var string */
     private $clusterId;
-
-    /** @var string */
+    /** @var string|null */
     private $clientId;
-
     /** @var array */
     private $context = [];
-
-    /**
-     * @var string
-     */
+    /** @var string|null */
     private $pubPrefix;
-
-    /**
-     * @var string
-     */
+    /** @var string|null */
     private $subRequests;
-
-    /**
-     * @var string
-     */
+    /** @var string|null */
     private $unsubRequests;
-
-    /**
-     * @var string
-     */
+    /** @var string|null */
     private $subCloseRequests;
-
-    /**
-     * @var string
-     */
+    /** @var string|null */
     private $closeRequests;
-
     /** @var int */
     private $connectionTimeout = 30;
-
     /** @var int */
     private $writeTimeout = 5;
-
     /** @var bool */
     private $debug = false;
 
@@ -88,14 +58,7 @@ class Configuration
         }
 
         if (!empty($config['is_random_client_id']) && $config['is_random_client_id']) {
-            if (PHP_VERSION_ID > 70000) {
-                $generator = new RandomGenerator();
-            } else {
-                $randomFactory = new Factory();
-                $generator = $randomFactory->getLowStrengthGenerator();
-            }
-
-            $this->clientId .= '_' . $generator->generateString(16);
+            $this->clientId = uniqid($this->clientId);
         }
     }
 
@@ -205,9 +168,9 @@ class Configuration
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getDsn(): string
+    public function getDsn(): ?string
     {
         return $this->dsn;
     }
@@ -253,9 +216,9 @@ class Configuration
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getClientId(): string
+    public function getClientId(): ?string
     {
         return $this->clientId;
     }
@@ -269,33 +232,33 @@ class Configuration
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getSubRequests(): string
+    public function getSubRequests(): ?string
     {
         return $this->subRequests;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPubPrefix(): string
+    public function getPubPrefix(): ?string
     {
         return $this->pubPrefix;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getUnsubRequests(): string
+    public function getUnsubRequests(): ?string
     {
         return $this->unsubRequests;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getCloseRequests(): string
+    public function getCloseRequests(): ?string
     {
         return $this->closeRequests;
     }
@@ -333,9 +296,9 @@ class Configuration
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getSubCloseRequests(): string
+    public function getSubCloseRequests(): ?string
     {
         return $this->subCloseRequests;
     }
