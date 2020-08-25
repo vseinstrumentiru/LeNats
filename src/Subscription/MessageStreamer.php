@@ -9,14 +9,9 @@ use LeNats\Services\Connection;
 use LeNats\Support\Protocol;
 use LeNats\Support\RandomGenerator;
 use LeNats\Support\Stream;
-use RandomLib\Factory;
-use RandomLib\Generator;
 
 abstract class MessageStreamer
 {
-    /** @var Generator|RandomGenerator */
-    protected $generator;
-
     /**
      * @var Connection
      */
@@ -25,13 +20,6 @@ abstract class MessageStreamer
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
-
-        if (PHP_VERSION_ID > 70000) {
-            $this->generator = new RandomGenerator();
-        } else {
-            $randomFactory = new Factory();
-            $this->generator = $randomFactory->getLowStrengthGenerator();
-        }
     }
 
     /**
@@ -69,16 +57,16 @@ abstract class MessageStreamer
     }
 
     /**
-     * @param  string          $inbox
-     * @param  string          $sid
-     * @throws Exception
-     * @throws StreamException
+     * @param string $inbox
+     * @param string|null $sid
      * @return string
+     * @throws ConnectionException
+     * @throws StreamException
      */
     protected function createSubscriptionInbox(string $inbox, ?string $sid = null): string
     {
         if ($sid === null) {
-            $sid = $this->generator->generateString(16);
+            $sid = uniqid('sid');
         }
 
         $this->getStream()->write(Protocol::SUB, [$inbox, $sid]);
