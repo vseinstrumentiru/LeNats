@@ -195,9 +195,7 @@ class Connection implements EventDispatcherAwareInterface
         Stream $stream,
         array $forwardEvents = [Data::class, End::class, Error::class, Close::class]
     ): void {
-        if ($this->getConfig()->isDebug()) {
-            $stream->setLogger($this->logger);
-        }
+        $stream->setLogger($this->logger);
 
         foreach ($forwardEvents as $eventClass) {
             $event = static::$forwardedEvents[$eventClass] ?? null;
