@@ -2,7 +2,6 @@
 
 namespace LeNats\Services;
 
-use LeNats\Support\RandomGenerator;
 use NatsStreamingProtocol\ConnectResponse;
 
 class Configuration

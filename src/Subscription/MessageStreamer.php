@@ -2,12 +2,10 @@
 
 namespace LeNats\Subscription;
 
-use Exception;
 use LeNats\Exceptions\ConnectionException;
 use LeNats\Exceptions\StreamException;
 use LeNats\Services\Connection;
 use LeNats\Support\Protocol;
-use LeNats\Support\RandomGenerator;
 use LeNats\Support\Stream;
 
 abstract class MessageStreamer
