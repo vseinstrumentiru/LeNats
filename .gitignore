@@ -1,11 +1,12 @@
 # Vendor
-vendor
+/vendor
+/composer.lock
 
 # PHPUnit
-.phpunit
-.phpunit.result.cache
-phpunit.xml
+/.phpunit
+/.phpunit.result.cache
+/phpunit.xml
 
 # IDE
-.idea
-.vscode
+/.idea
+/.vscode
