@@ -17,13 +17,8 @@ class CloseConnection extends SubscriptionMessageStreamer
         return $request;
     }
 
-    protected function getPublishSubject(Subscription $subscription): ?string
+    protected function getPublishSubject(Subscription $subscription): string
     {
-        $subject = $this->connection->getConfig()->getCloseRequests();
-        if (empty($subject)) {
-            throw new \LogicException('subject is empty');
-        }
-
         return $this->connection->getConfig()->getCloseRequests();
     }
 
