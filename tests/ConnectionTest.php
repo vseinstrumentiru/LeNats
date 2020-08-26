@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LeNats\Tests;
 
 use LeNats\Events\React\Data;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LeNats\Tests\Mocks;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
@@ -23,7 +25,7 @@ class Kernel extends BaseKernel
             $fs->remove($this->getCacheDir());
         }
 
-        parent::__construct($environment, $debug);
+        parent::__construct($environment, (bool)$debug);
     }
 
     protected function build(ContainerBuilder $container)
