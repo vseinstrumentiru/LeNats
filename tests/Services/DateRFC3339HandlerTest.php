@@ -11,12 +11,12 @@ class DateRFC3339HandlerTest extends TestCase
     /**
      * @dataProvider datetimeProvider
      *
-     * @param string $datetimeRfc3339
+     * @param string|\DateTimeInterface $datetimeRfc3339
      * @param        $expected
      *
      * @throws \ReflectionException
      */
-    public function testPrepare(string $datetimeRfc3339, $expected)
+    public function testPrepare($datetimeRfc3339, $expected)
     {
         $handler = new DateRFC3339Handler();
         $reflection = new ReflectionClass($handler);
@@ -29,21 +29,25 @@ class DateRFC3339HandlerTest extends TestCase
     public function datetimeProvider(): array
     {
         return [
-            'RFC3339 formatted date  which php can parse'=>[
+            'RFC3339 formatted date  which php can parse'        => [
                 '2020-06-08T12:46:41+00:00',
                 '2020-06-08T12:46:41+00:00',
             ],
-            'RFC3339 formatted date with numsec'=>[
+            'RFC3339 formatted date with numsec'                 => [
                 '2020-06-08T14:50:22.257114',
                 '2020-06-08T14:50:22+00:00',
             ],
-            'RFC3339 formatted date with numsec and Z'=>[
+            'RFC3339 formatted date with numsec and Z'           => [
                 '2020-06-08T14:50:22.257114Z',
                 '2020-06-08T14:50:22+00:00',
             ],
-            'RFC3339 formatted date with numsec and time offset'=>[
+            'RFC3339 formatted date with numsec and time offset' => [
                 '2006-12-12T10:01:02.999999999-04:00',
                 '2006-12-12T10:01:02-04:00',
+            ],
+            'RFC3339 \DateTimeImmutable'                         => [
+                new \DateTime('2006-12-12T10:01:02-04:00'),
+                '2006-12-12T10:01:02-04:00'
             ],
         ];
     }
