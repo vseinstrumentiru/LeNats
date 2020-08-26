@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LeNats\Tests\Mocks;
 
 use LeNats\Services\Connection;

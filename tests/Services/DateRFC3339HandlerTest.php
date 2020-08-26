@@ -1,8 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
-namespace LeNats\Services;
+namespace LeNats\Tests\Services;
 
+use LeNats\Services\DateRFC3339Handler;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
