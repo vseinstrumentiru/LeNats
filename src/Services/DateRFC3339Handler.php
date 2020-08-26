@@ -75,12 +75,14 @@ class DateRFC3339Handler implements SubscribingHandlerInterface
      *
      * @param string|\DateTimeInterface $paramDatetime
      *
-     * @return string
+     * @return \DateTimeImmutable
+     *
+     * @throws \Exception
      */
-    private function prepare($paramDatetime): string
+    private function prepare($paramDatetime): \DateTimeImmutable
     {
         if ($paramDatetime instanceof \DateTimeInterface) {
-            return $paramDatetime->format(DATE_RFC3339);
+            return new \DateTimeImmutable($paramDatetime->format(DATE_RFC3339));
         }
 
         if (is_string($paramDatetime)) {
@@ -95,7 +97,7 @@ class DateRFC3339Handler implements SubscribingHandlerInterface
                 $matches
             );
 
-            return $matches[1] . ($matches[5] ?? '+00:00');
+            return new \DateTimeImmutable($matches[1] . ($matches[5] ?? '+00:00'));
         }
 
         throw new \LogicException('allowed only DateTimeInterface or string');
