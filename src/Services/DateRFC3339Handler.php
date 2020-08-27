@@ -73,16 +73,16 @@ class DateRFC3339Handler implements SubscribingHandlerInterface
      * Удаляет секцию *time-secfrac* из строки времени
      * @see https://bugs.php.net/bug.php?id=64814
      *
-     * @param string|\DateTimeInterface $paramDatetime
+     * @param string $paramDatetime
      *
-     * @return \DateTimeImmutable
+     * @return string
      *
      * @throws \Exception
      */
-    private function prepare($paramDatetime): \DateTimeImmutable
+    private function prepare($paramDatetime): string
     {
         if ($paramDatetime instanceof \DateTimeInterface) {
-            return new \DateTimeImmutable($paramDatetime->format(DATE_RFC3339));
+            return $paramDatetime->format(DATE_RFC3339);
         }
 
         if (is_string($paramDatetime)) {
@@ -97,7 +97,7 @@ class DateRFC3339Handler implements SubscribingHandlerInterface
                 $matches
             );
 
-            return new \DateTimeImmutable($matches[1] . ($matches[5] ?? '+00:00'));
+            return $matches[1] . ($matches[5] ?? '+00:00');
         }
 
         throw new \LogicException('allowed only DateTimeInterface or string');
