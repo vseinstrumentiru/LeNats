@@ -42,6 +42,7 @@ class DateRFC3339Handler implements SubscribingHandlerInterface
      * @param $arguments
      *
      * @return mixed
+     * @throws \Exception
      */
     public function __call($name, array $arguments)
     {
@@ -85,12 +86,8 @@ class DateRFC3339Handler implements SubscribingHandlerInterface
      *
      * @throws \Exception
      */
-    private function prepare($paramDatetime): string
+    private function prepare(string $paramDatetime): string
     {
-        if ($paramDatetime instanceof \DateTimeInterface) {
-            return $paramDatetime->format(DATE_RFC3339);
-        }
-
         if (is_string($paramDatetime)) {
             preg_match(
                 '#' .                           // open tag
