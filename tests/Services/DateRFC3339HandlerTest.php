@@ -4,12 +4,25 @@ declare(strict_types=1);
 
 namespace LeNats\Tests\Services;
 
+use JMS\Serializer\JsonSerializationVisitor;
+use JMS\Serializer\SerializationContext;
 use LeNats\Services\DateRFC3339Handler;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
 class DateRFC3339HandlerTest extends TestCase
 {
+    public function testSerializeDateTimeImmutable()
+    {
+        $handler = new DateRFC3339Handler();
+        $visitor = new JsonSerializationVisitor();
+        $context = new SerializationContext();
+        $this->assertEquals(
+            '2020-06-08T12:46:41+00:00',
+            $handler->serializeDateTimeImmutable($visitor, '2020-06-08T12:46:41+00:00', [], $context)
+        );
+    }
+
     /**
      * @dataProvider datetimeProvider
      *

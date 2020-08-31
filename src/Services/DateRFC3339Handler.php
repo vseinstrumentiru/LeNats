@@ -42,17 +42,26 @@ class DateRFC3339Handler implements SubscribingHandlerInterface
      * @param $arguments
      *
      * @return mixed
+     * @throws \Exception
      */
     public function __call($name, array $arguments)
     {
         if (method_exists($this->decoratedHandler, $name)) {
-            switch ($this->defaultFormat) {
-                case DateTime::ATOM:
-                case DateTime::RFC3339:
-                case DateTime::RFC3339_EXTENDED:
-                case DateTime::W3C:
-                    $arguments[1] = $this->prepare($arguments[1]);
-                    break;
+            if (is_string($arguments[1])) {
+                if ($name === 'serializeDateTimeImmutable') {
+                    $arguments[1] = new \DateTimeImmutable($arguments[1]);
+                } else {
+                    switch ($this->defaultFormat) {
+                        case DateTime::ATOM:
+                        case DateTime::RFC3339:
+                        case DateTime::RFC3339_EXTENDED:
+                        case DateTime::W3C:
+                            $arguments[1] = $this->prepare($arguments[1]);
+                            break;
+                    }
+                }
+            } else if ($arguments[1] instanceof \DateTimeInterface) {
+                $arguments[1] = $arguments[1]->format(DATE_RFC3339);
             }
 
             return call_user_func_array([$this->decoratedHandler, $name], $arguments);
@@ -79,12 +88,8 @@ class DateRFC3339Handler implements SubscribingHandlerInterface
      *
      * @throws \Exception
      */
-    private function prepare($paramDatetime): string
+    private function prepare(string $paramDatetime): string
     {
-        if ($paramDatetime instanceof \DateTimeInterface) {
-            return $paramDatetime->format(DATE_RFC3339);
-        }
-
         if (is_string($paramDatetime)) {
             preg_match(
                 '#' .                           // open tag
