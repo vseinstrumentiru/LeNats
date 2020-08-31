@@ -58,8 +58,6 @@ class DateRFC3339Handler implements SubscribingHandlerInterface
                         $arguments[1] = $this->prepare($arguments[1]);
                         break;
                 }
-            } else if ($arguments[1] instanceof \DateTimeInterface) {
-                $arguments[1] = $arguments[1]->format(DATE_RFC3339);
             }
 
             return call_user_func_array([$this->decoratedHandler, $name], $arguments);
