@@ -19,7 +19,15 @@ class DateRFC3339HandlerTest extends TestCase
         $context = new SerializationContext();
         $this->assertEquals(
             '2020-06-08T12:46:41+00:00',
+            $handler->serializeDateTimeImmutable($visitor, new \DateTimeImmutable('2020-06-08T12:46:41+00:00'), [], $context)
+        );
+        $this->assertEquals(
+            '2020-06-08T12:46:41+00:00',
             $handler->serializeDateTimeImmutable($visitor, '2020-06-08T12:46:41+00:00', [], $context)
+        );
+        $this->assertEquals(
+            '2020-06-08T12:46:41+00:00',
+            $handler->__call('serializeDateTimeImmutable', [$visitor, '2020-06-08T12:46:41+00:00', [], $context])
         );
     }
 
