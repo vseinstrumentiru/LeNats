@@ -18,7 +18,7 @@ class Connector extends SubscriptionMessageStreamer
         return $request;
     }
 
-    protected function getPublishSubject(Subscription $subscription): string
+    protected function getPublishSubject(Subscription $subscription): ?string
     {
         return $subscription->getSubject();
     }

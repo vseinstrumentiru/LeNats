@@ -4,6 +4,7 @@ namespace LeNats\Commands;
 
 use LeNats\Subscription\Subscriber;
 use LeNats\Subscription\Subscription;
+use Psr\Log\LoggerInterface;
 use Rakit\Validation\Validator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -15,24 +16,26 @@ class SubscribeCommand extends Command
 {
     /** @var string */
     protected static $defaultName = 'nats:subscribe';
-
-    /**
-     * @var Subscriber
-     */
+    /** @var Subscriber */
     private $subscriber;
+    /** @var Validator */
+    private $validator;
+    /** @var LoggerInterface */
+    private $logger;
 
     /**
-     * @var Validator
+     * @param Subscriber $subscriber
+     * @param LoggerInterface $logger
      */
-    private $validator;
-
-    public function __construct(Subscriber $subscriber)
-    {
+    public function __construct(
+        Subscriber $subscriber,
+        LoggerInterface $logger
+    ) {
         parent::__construct();
 
         $this->validator = new Validator();
-
         $this->subscriber = $subscriber;
+        $this->logger = $logger;
     }
 
     protected function configure(): void
@@ -118,6 +121,9 @@ class SubscribeCommand extends Command
             $output->write('Processed:' . $subscription->getProcessed(), true);
             $output->write('In:' . (microtime(true) - $start), true);
         } catch (\Throwable $e) {
+            $this->logger->error($e->getMessage(), [
+                'exception' => $e
+            ]);
             $output->write('Finished with exception:' . $e->getMessage());
 
             return 1;

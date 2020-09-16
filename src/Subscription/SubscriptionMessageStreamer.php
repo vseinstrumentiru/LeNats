@@ -28,7 +28,7 @@ abstract class SubscriptionMessageStreamer extends MessageStreamer implements Ev
      */
     public function subscribe(Subscription $subscription): self
     {
-        $subscription->setSid($this->generator->generateString(16));
+        $subscription->setSid(uniqid('sid'));
         $this->storeSubscription($subscription);
 
         if ($this->getMessageListenerClass() !== null) {
@@ -42,7 +42,7 @@ abstract class SubscriptionMessageStreamer extends MessageStreamer implements Ev
 
         $requestInbox = Inbox::newInbox();
 
-        $sid = $this->generator->generateString(16);
+        $sid = uniqid('sid');
         $this->storeSubscription($subscription, $sid);
 
         $this->registerListener($sid, $this->getResponseListenerClass());
@@ -108,7 +108,7 @@ abstract class SubscriptionMessageStreamer extends MessageStreamer implements Ev
         $this->dispatcher->addListener($sid, $listener, $priority);
     }
 
-    abstract protected function getPublishSubject(Subscription $subscription): string;
+    abstract protected function getPublishSubject(Subscription $subscription): ?string;
 
     abstract protected function getRequest(Subscription $subscription): Message;
 

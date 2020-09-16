@@ -6,14 +6,14 @@ use JMS\Serializer\SerializerInterface;
 use LeNats\Contracts\EventDispatcherAwareInterface;
 use LeNats\Events\CloudEvent;
 use LeNats\Events\Nats\SubscriptionMessageReceived;
-use LeNats\Exceptions\ConnectionException;
-use LeNats\Exceptions\StreamException;
 use LeNats\Exceptions\SubscriptionException;
 use LeNats\Services\EventTypeResolver;
 use LeNats\Subscription\Subscriber;
 use LeNats\Support\Dispatcherable;
 use NatsStreamingProtocol\MsgProto;
 use LeNats\Events\Fake\CloudEvent as FakeCloudEvent;
+use Psr\Log\LoggerInterface;
+use Throwable;
 
 class SubscriptionListener implements EventDispatcherAwareInterface
 {
@@ -34,35 +34,46 @@ class SubscriptionListener implements EventDispatcherAwareInterface
      */
     private $subscriber;
 
+    /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    private $logger;
+
     public function __construct(
         SerializerInterface $serializer,
         EventTypeResolver $typeResolver,
-        Subscriber $subscriber
+        Subscriber $subscriber,
+        LoggerInterface $logger
     ) {
         $this->serializer = $serializer;
         $this->typeResolver = $typeResolver;
         $this->subscriber = $subscriber;
+        $this->logger = $logger;
     }
 
     /**
-     * @param  SubscriptionMessageReceived $event
+     * @param SubscriptionMessageReceived $event
+     *
      * @throws SubscriptionException
-     * @throws StreamException
-     * @throws ConnectionException
      */
     public function handle(SubscriptionMessageReceived $event): void
     {
         $message = new MsgProto();
         try {
             $message->mergeFromString($event->payload);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
+            $this->logger->error($e->getMessage(), [
+                'exception' => $e
+            ]);
             throw new SubscriptionException($e->getMessage());
         }
 
         $data = json_decode($message->getData(), true);
 
         if (!array_key_exists('type', $data)) {
-            throw new SubscriptionException('Event type not found');
+            $this->logger->error('Event type not found');
+
+            return;
         }
 
         $eventType = $data['type'];
@@ -78,7 +89,9 @@ class SubscriptionListener implements EventDispatcherAwareInterface
 
         $cloudEvent = $this->serializer->deserialize($message->getData(), $eventClass, 'json');
         if (!($cloudEvent instanceof CloudEvent) && !($cloudEvent instanceof FakeCloudEvent)) {
-            throw new SubscriptionException($eventClass . ' must be instance of CloudEvent');
+            $this->logger->error($eventClass . ' must be instance of CloudEvent');
+
+            return;
         }
 
         if ($cloudEvent instanceof FakeCloudEvent) {
