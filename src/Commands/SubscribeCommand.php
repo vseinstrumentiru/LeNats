@@ -97,7 +97,7 @@ class SubscribeCommand extends Command
             ->setHelp('bin/console nats:subscribe your.queue.name [-t timeout]');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $queue = $input->getArgument('queue');
 
@@ -129,7 +129,7 @@ class SubscribeCommand extends Command
             return 1;
         }
 
-        return null;
+        return 0;
     }
 
     private function configureSubscription(
